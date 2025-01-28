@@ -1,32 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
-import { 
-  FaChartLine, 
-  FaRocket, 
-  FaUsers, 
-  FaSearch, 
-  FaShareSquare, 
-  FaChartPie 
-} from 'react-icons/fa'
+import bgTexture from '../assets/bg-texture.png'
+import { FaCode, FaMobileAlt, FaRocket } from 'react-icons/fa'
 
-const ServicesContainer = styled.div`
-  background-color: #000000;
-  color: #FFD700;
+const ServicesWrapper = styled.section`
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 1rem 2rem;
   min-height: 100vh;
-  padding: 100px 50px;
-`
-
-const SectionTitle = styled.h1`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-size: 3rem;
-  margin-bottom: 50px;
+  background: url(${bgTexture}) no-repeat center center;
+  background-size: cover;
+
+  @media (max-width: 768px) {
+    padding: 80px 1rem 2rem;
+  }
 `
 
-const ServiceGrid = styled.div`
+const ServicesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: stretch;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
@@ -34,89 +35,146 @@ const ServiceGrid = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
   }
 `
 
-const ServiceCard = styled(motion.div)`
-  background-color: #1A1A1A;
-  padding: 30px;
-  border-radius: 10px;
+const ServiceCard = styled.div`
+  background-color: ${props => props.theme.colors.background};
+  border-radius: 15px;
+  border: 2px solid #6a11cb;
+  padding: 2rem;
   text-align: center;
-  transition: transform 0.3s ease;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    width: 100%;
+    margin: 0 auto;
+  }
 `
 
 const ServiceIcon = styled.div`
   font-size: 3rem;
-  color: #FFD700;
-  margin-bottom: 20px;
+  color: #6a11cb;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.9;
+
+  @media (max-width: 768px) {
+    font-size: 3rem;
+  }
 `
 
-const ServiceTitle = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 15px;
+const ServiceTitle = styled.h2`
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #6a11cb;
+  margin-bottom: 1rem;
+  text-align: center;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `
 
 const ServiceDescription = styled.p`
-  color: #CCCCCC;
+  font-size: 1.1rem;
+  color: rgba(0,0,0,0.7);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+`
+
+const ServicePrice = styled.div`
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #6a11cb;
+  margin-bottom: 1rem;
+  text-align: center;
+  letter-spacing: -0.05em;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+`
+
+const ServiceButton = styled.button`
+  background: linear-gradient(135deg, #6a11cb 0%, #4a148c 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
 `
 
 const Services: React.FC = () => {
   const services = [
     {
-      icon: <FaChartLine />,
-      title: 'Marketing Estratégico',
-      description: 'Análise de mercado e planejamento estratégico para impulsionar seus resultados.'
+      icon: FaCode,
+      title: 'Básico',
+      description: 'Landing Page, Design Responsivo, Otimização SEO Básica, Suporte por Email',
+      price: 'R$ 35'
     },
     {
-      icon: <FaRocket />,
-      title: 'Gestão de Redes Sociais',
-      description: 'Criação de conteúdo, gestão de comunidades e estratégias de engajamento.'
+      icon: FaMobileAlt,
+      title: 'Intermediário',
+      description: 'Site Completo, Design Personalizado, Otimização SEO Avançada, Integração de Redes Sociais, Suporte Prioritário',
+      price: 'R$ 65'
     },
     {
-      icon: <FaUsers />,
-      title: 'Consultoria Digital',
-      description: 'Soluções personalizadas para transformar sua presença online.'
-    },
-    {
-      icon: <FaSearch />,
-      title: 'SEO',
-      description: 'Otimização para motores de busca e melhoria de visibilidade online.'
-    },
-    {
-      icon: <FaShareSquare />,
-      title: 'Marketing de Conteúdo',
-      description: 'Criação de conteúdo relevante e estratégico para sua marca.'
-    },
-    {
-      icon: <FaChartPie />,
-      title: 'Analytics',
-      description: 'Análise de dados e métricas para tomada de decisão inteligente.'
+      icon: FaRocket,
+      title: 'Avançado',
+      description: 'Site Empresarial Completo, Design Premium, SEO Especializado, E-commerce, Marketing Digital, Suporte Dedicado 24/7',
+      price: 'R$ 120'
     }
   ]
 
+  const handleContractClick = (title: string) => {
+    const whatsappMessage = `Olá, tenho interesse no plano ${title}. Gostaria de mais informações.`
+    const whatsappUrl = `https://wa.me/5527999159857?text=${encodeURIComponent(whatsappMessage)}`
+    window.open(whatsappUrl, '_blank')
+  }
+
   return (
-    <ServicesContainer>
-      <SectionTitle>Nossos Serviços</SectionTitle>
-      <ServiceGrid>
+    <ServicesWrapper>
+      <h1>Nossos Serviços</h1>
+      <ServicesGrid>
         {services.map((service, index) => (
-          <ServiceCard
-            key={index}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              delay: index * 0.2, 
-              type: 'spring', 
-              stiffness: 100 
-            }}
-            whileHover={{ scale: 1.05 }}
-          >
-            <ServiceIcon>{service.icon}</ServiceIcon>
+          <ServiceCard key={index}>
+            <ServiceIcon>
+              <service.icon />
+            </ServiceIcon>
             <ServiceTitle>{service.title}</ServiceTitle>
             <ServiceDescription>{service.description}</ServiceDescription>
+            <ServicePrice>{service.price}</ServicePrice>
+            <ServiceButton onClick={() => handleContractClick(service.title)}>
+              Contratar
+            </ServiceButton>
           </ServiceCard>
         ))}
-      </ServiceGrid>
-    </ServicesContainer>
+      </ServicesGrid>
+    </ServicesWrapper>
   )
 }
 

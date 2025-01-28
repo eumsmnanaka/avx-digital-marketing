@@ -1,176 +1,154 @@
 import React from 'react'
 import styled from 'styled-components'
-import { motion, MotionProps } from 'framer-motion'
-import { FaGoogle, FaWhatsapp, FaStar } from 'react-icons/fa'
-import { isMobile, isTablet } from 'react-device-detect'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  FaCode, 
+  FaMobileAlt, 
+  FaChartLine,
+  FaRocket,
+  FaCheckCircle
+} from 'react-icons/fa'
+import bgTexture from '../assets/bg-texture.png'
 
-// Image imports
-import HeroImage from '../assets/images/hero-image.jpg'
-
-console.log('Hero Image Import:', HeroImage)
-
-// Definição dos tipos de comentários
-interface Testimonial {
-  id: number;
-  name: string;
-  comment: string;
-  rating: number;
-  avatar?: string;
-}
-
-// Dados de exemplo para comentários
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: "João Silva",
-    comment: "Serviço excepcional! A AVX superou todas as minhas expectativas em qualidade e atendimento.",
-    rating: 5,
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg"
-  },
-  {
-    id: 2,
-    name: "Maria Souza",
-    comment: "Profissionalismo e dedicação são marcas da AVX. Recomendo fortemente!",
-    rating: 5,
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg"
-  },
-  {
-    id: 3,
-    name: "Carlos Eduardo",
-    comment: "Trabalho impecável, entrega no prazo e com alta qualidade. Muito satisfeito!",
-    rating: 4,
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg"
-  }
-]
-
-interface AnimatedProps extends MotionProps {
-  $isMobile?: boolean;
-}
-
-const TestimonialsSection = styled(motion.section)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 50px 20px;
-  background: transparent;
-`
-
-const SectionTitle = styled.h2`
-  text-align: center;
-  color: #FFD700;
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-  width: 100%;
-`
-
-const TestimonialCard = styled(motion.div)`
-  background: rgba(30, 30, 50, 0.2);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-  padding: 20px;
-  margin: 10px;
-  width: 350px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-10px);
-    background: rgba(30, 30, 50, 0.3);
-  }
-`
-
-const TestimonialAvatar = styled.img`
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin-right: 15px;
-  border: 2px solid #FFD700;
-`
-
-const TestimonialContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const TestimonialName = styled.h4`
-  margin: 0 0 5px 0;
-  color: #FFD700;
-  font-size: 1.1rem;
-`
-
-const TestimonialRating = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-`
-
-const TestimonialText = styled.p`
-  margin: 0;
-  color: #d0d0d0;
-  font-size: 0.9rem;
-  line-height: 1.5;
-`
-
-const HomeContainer = styled(motion.div)<{ $isMobile: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #121212, #1E1E1E);
-  color: #FFFFFF;
+const HomeWrapper = styled(motion.div)`
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
   overflow-x: hidden;
-  padding-bottom: ${props => props.$isMobile ? '80px' : '0'};
-  margin-bottom: ${props => props.$isMobile ? '20px' : '0'};
+  background: url(${bgTexture}) no-repeat center center;
+  background-size: cover;
+  color: ${props => props.theme.colors.text};
 `
 
-const HeroSection = styled(motion.section)<AnimatedProps>`
+const HeroSection = styled(motion.section)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${props => props.$isMobile ? '1rem' : '2rem 4rem'};
-  gap: 2rem;
-  perspective: 1000px;
-  transform-style: preserve-3d;
+  min-height: 100vh;
+  padding: 2rem 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
 `
 
-const HeroContent = styled(motion.div)<AnimatedProps>`
+const HeroContent = styled(motion.div)`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  text-align: ${props => props.$isMobile ? 'center' : 'left'};
-  transform: translateZ(50px);
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
 `
 
-const HeroTitle = styled(motion.h1)<AnimatedProps>`
-  font-size: ${props => props.$isMobile ? '1.8rem' : '2.5rem'};
+const MainTitle = styled(motion.h1)`
+  font-size: 4rem;
   font-weight: 700;
-  color: #FFD700;
+  color: ${props => props.theme.colors.text};
+  text-align: center;
+  width: 100%;
+  letter-spacing: -1px;
+  margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+  }
+`
+
+const Subtitle = styled(motion.p)`
+  font-size: 1.5rem;
+  color: ${props => props.theme.colors.text};
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+`
+
+const ButtonGroup = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+`
+
+const PrimaryButton = styled(motion.a)`
+  color: ${props => props.theme.colors.text};
+  border: 2px solid ${props => props.theme.colors.primary};
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: ${props => props.theme.colors.primary};
+    color: white;
+  }
 
   &::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
+    top: 0;
+    left: -100%;
     width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, transparent, #FFD700, transparent);
-    transform: scaleX(0);
-    transition: transform 0.5s ease;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(106, 17, 203, 0.2), transparent);
+    transition: all 0.5s ease;
   }
 
   &:hover::before {
-    transform: scaleX(1);
+    left: 100%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(106, 17, 203, 0.1), transparent);
+    transition: all 0.5s ease;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    opacity: 1;
   }
 `
 
-const HeroSubtitle = styled(motion.p)<AnimatedProps>`
-  font-size: ${props => props.$isMobile ? '1rem' : '1.2rem'};
-  color: #FFD700;
+const BenefitsList = styled(motion.div)`
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+const BenefitItem = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: ${props => props.theme.colors.text};
   opacity: 0.8;
   transition: all 0.3s ease;
 
@@ -180,396 +158,210 @@ const HeroSubtitle = styled(motion.p)<AnimatedProps>`
   }
 `
 
-const HeroImageContainer = styled(motion.div)<AnimatedProps>`
-  flex: 1;
-  display: ${props => props.$isMobile ? 'none' : 'block'};
-  text-align: center;
-`
-
-const FeaturesSection = styled.div<{ $isMobile: boolean }>`
+const HeroImage = styled(motion.div)`
   display: flex;
-  flex-direction: ${props => props.$isMobile ? 'column' : 'row'};
   justify-content: center;
   align-items: center;
-  gap: ${props => props.$isMobile ? '1rem' : '2rem'};
-  padding: ${props => props.$isMobile ? '1rem' : '2rem'};
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+`
+
+const LogoContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+`
+
+const ServicesSection = styled(motion.section)`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  background-color: ${props => props.theme.colors.background};
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
     padding: 1rem;
   }
 `
 
-const FeatureCard = styled(motion.a)<AnimatedProps>`
+const ServiceCard = styled(motion.div)`
+  background-color: white;
+  border: 2px solid #6a11cb;
+  border-radius: 15px;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: ${props => props.$isMobile ? '1rem' : '1.5rem'};
-  background: linear-gradient(135deg, rgba(20,20,20,0.9), rgba(30,30,30,0.9));
-  border-radius: 15px;
-  text-decoration: none;
-  color: #FFD700;
-  width: 100%;
-  max-width: ${props => props.$isMobile ? '90%' : '300px'};
-  position: relative;
-  overflow: hidden;
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  cursor: pointer;
-  backdrop-filter: blur(5px);
-
-  @media (max-width: 768px) {
-    max-width: 90%;
-    padding: 1rem;
-    margin: 0.5rem 0;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at center, 
-      rgba(255, 215, 0, 0.1) 0%, 
-      transparent 70%
-    );
-    opacity: 0;
-    z-index: 1;
-    transition: opacity 0.5s ease;
-  }
+  transition: all 0.3s ease;
 
   &:hover {
-    transform: scale(1.05) rotateX(10deg) rotateY(-10deg);
-    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
-
-    &::before {
-      opacity: 0.3;
-    }
-
-    h3 {
-      transform: translateY(-10px) rotate(2deg);
-      letter-spacing: 1px;
-      color: #FFEC00;
-    }
-
-    p {
-      opacity: 0.9;
-      transform: translateY(0) rotate(-1deg);
-    }
+    transform: translateY(-10px);
   }
 `
 
-const FeatureIcon = styled(motion.div)<{ $isMobile: boolean }>`
-  font-size: ${props => props.$isMobile ? '2rem' : '2.5rem'};
-  color: #FFD700;
+const ServiceIcon = styled(motion.div)`
+  font-size: 2.5rem;
+  color: #6a11cb;
   margin-bottom: 1rem;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateZ(50px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  width: ${props => props.$isMobile ? '60px' : '80px'};
-  height: ${props => props.$isMobile ? '60px' : '80px'};
-  cursor: pointer;
-  background: rgba(255, 215, 0, 0.05);
+`
 
-  @media (max-width: 768px) {
-    font-size: 2rem;
-    width: 60px;
-    height: 60px;
-  }
+const ServiceTitle = styled(motion.h3)`
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #6a11cb;
+`
+
+const ServiceDescription = styled(motion.p)`
+  color: rgba(0,0,0,0.7);
+  font-size: 0.9rem;
 `
 
 const Home: React.FC = () => {
-  const deviceIsMobile = isMobile || isTablet
+  const services = [
+    {
+      icon: FaCode,
+      title: 'Desenvolvimento Web',
+      description: 'Criamos sites modernos e responsivos que se destacam.'
+    },
+    {
+      icon: FaMobileAlt,
+      title: 'Design Responsivo',
+      description: 'Seu site perfeito em qualquer dispositivo.'
+    },
+    {
+      icon: FaChartLine,
+      title: 'Otimização SEO',
+      description: 'Aumente sua visibilidade nos mecanismos de busca.'
+    },
+    {
+      icon: FaRocket,
+      title: 'Estratégia Digital',
+      description: 'Transforme sua presença online com estratégias inteligentes.'
+    }
+  ]
 
   return (
-    <HomeContainer $isMobile={deviceIsMobile}>
-      <HeroSection
-        $isMobile={deviceIsMobile}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          duration: 0.8,
-          type: 'spring',
-          stiffness: 250,
-          damping: 25
-        }}
-      >
-        <HeroContent $isMobile={deviceIsMobile}>
-          <HeroTitle 
-            $isMobile={deviceIsMobile}
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              delay: 0.2,
-              type: 'spring',
-              stiffness: 300
-            }}
-            whileHover={{
-              scale: 1.05,
-              transition: { type: 'spring', stiffness: 300 }
+    <HomeWrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <HeroSection>
+        <HeroContent>
+          <MainTitle
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.2
             }}
           >
-            Transforme sua Presença Digital com AVX Marketing
-          </HeroTitle>
-          <HeroSubtitle 
-            $isMobile={deviceIsMobile}
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ 
-              delay: 0.4,
-              type: 'spring',
-              stiffness: 300
+            SiteForge
+          </MainTitle>
+          <Subtitle
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.4
             }}
           >
-            AGENCIA ESPECIALIZADA EM IMPULSIONAR MARCAS E NEGOCIOS NA INTERNET 
-          </HeroSubtitle>
-        </HeroContent>
-
-        <HeroImageContainer 
-          $isMobile={deviceIsMobile}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ 
-            delay: 0.6,
-            type: 'spring',
-            stiffness: 250
-          }}
-        >
-          <img src={HeroImage} alt="Hero Image" />
-        </HeroImageContainer>
-      </HeroSection>
-
-      <FeaturesSection $isMobile={deviceIsMobile}>
-        <FeatureCard
-          $isMobile={deviceIsMobile}
-          href="https://search.google.com/local/writereview?placeid=ChIJuRfjS4sXuAARAAjUl1bkNhA&source=g.page.m.dd._&laa=lu-desktop-reviews-dialog-review-solicitation"
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ 
-            opacity: 0, 
-            y: 50,
-            scale: 0.8,
-            rotateX: 15,
-            rotateY: -15
-          }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            rotateX: 0,
-            rotateY: 0
-          }}
-          whileHover={{
-            scale: 1.05,
-            transition: {
-              type: 'spring',
-              stiffness: 300,
-              damping: 10
-            }
-          }}
-          transition={{ 
-            duration: 0.7,
-            type: 'spring',
-            stiffness: 250,
-            damping: 25
-          }}
-        >
-          <FeatureIcon
-            $isMobile={deviceIsMobile}
-            initial={{ 
-              rotate: 0,
-              scale: 1,
-              color: '#FFD700'
-            }}
-            whileHover={{ 
-              rotate: [0, 10, -10, 10, -10, 0],
-              scale: 1.1,
-              color: '#4285F4',
-              transition: { 
-                duration: 0.5,
-                type: 'tween'
-              }
-            }}
-          >
-            <FaGoogle />
-          </FeatureIcon>
-          <h3>Nos Avalie no Google</h3>
-          <p>Compartilhe sua experiência e ajude outros clientes a nos conhecerem</p>
-        </FeatureCard>
-
-        <FeatureCard
-          $isMobile={deviceIsMobile}
-          href="https://wa.me/5527997183566?text=Ol%C3%A1%2C+quero+fazer+um+or%C3%A7amento+%21"
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ 
-            opacity: 0, 
-            y: 50,
-            scale: 0.8,
-            rotateX: 15,
-            rotateY: -15
-          }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            rotateX: 0,
-            rotateY: 0
-          }}
-          whileHover={{
-            scale: 1.05,
-            transition: {
-              type: 'spring',
-              stiffness: 300,
-              damping: 10
-            }
-          }}
-          transition={{ 
-            duration: 0.7,
-            delay: 0.2,
-            type: 'spring',
-            stiffness: 250,
-            damping: 25
-          }}
-        >
-          <FeatureIcon
-            $isMobile={deviceIsMobile}
-            initial={{ 
-              rotate: 0,
-              scale: 1,
-              color: '#FFD700'
-            }}
-            whileHover={{ 
-              rotate: [0, 10, -10, 10, -10, 0],
-              scale: 1.1,
-              color: '#25D366',
-              transition: { 
-                duration: 0.5,
-                type: 'tween'
-              }
-            }}
-          >
-            <FaWhatsapp />
-          </FeatureIcon>
-          <h3>Orçamentos - AVX COMERCIAL</h3>
-          <p>Clique aqui para solicitar um orçamento pelo WhatsApp</p>
-        </FeatureCard>
-
-        <FeatureCard
-          $isMobile={deviceIsMobile}
-          href="https://wa.me/message/Q3XD3KOI3UGZF1"
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ 
-            opacity: 0, 
-            y: 50,
-            scale: 0.8,
-            rotateX: 15,
-            rotateY: -15
-          }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            rotateX: 0,
-            rotateY: 0
-          }}
-          whileHover={{
-            scale: 1.05,
-            transition: {
-              type: 'spring',
-              stiffness: 300,
-              damping: 10
-            }
-          }}
-          transition={{ 
-            duration: 0.7,
-            delay: 0.4,
-            type: 'spring',
-            stiffness: 250,
-            damping: 25
-          }}
-          style={{ 
-            backdropFilter: 'none',
-            background: 'linear-gradient(135deg, rgba(20,20,20,0.9), rgba(30,30,30,0.9))'
-          }}
-        >
-          <FeatureIcon
-            $isMobile={deviceIsMobile}
-            initial={{ 
-              rotate: 0,
-              scale: 1,
-              color: '#FFD700'
-            }}
-            whileHover={{ 
-              rotate: [0, 10, -10, 10, -10, 0],
-              scale: 1.1,
-              color: '#25D366',
-              transition: { 
-                duration: 0.5,
-                type: 'tween'
-              }
-            }}
-          >
-            <FaWhatsapp />
-          </FeatureIcon>
-          <h3>AVX Relacionamentos</h3>
-          <p>Conecte-se conosco e faça seu orçamento</p>
-        </FeatureCard>
-      </FeaturesSection>
-
-      <TestimonialsSection
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <SectionTitle>Depoimentos de Clientes</SectionTitle>
-        {testimonials.map((testimonial) => (
-          <TestimonialCard
-            key={testimonial.id}
-            initial={{ opacity: 0, y: 50 }}
+            Forjando sua presença digital com soluções web personalizadas e de alta performance
+          </Subtitle>
+          <ButtonGroup>
+            <PrimaryButton 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Nossos Serviços
+            </PrimaryButton>
+          </ButtonGroup>
+          <BenefitsList
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ 
-              duration: 0.6, 
-              delay: testimonial.id * 0.2 
-            }}
-            whileHover={{ 
-              scale: 1.05,
-              transition: { duration: 0.3 }
+              type: "spring", 
+              stiffness: 100,
+              delay: 0.8
             }}
           >
-            {testimonial.avatar && (
-              <TestimonialAvatar 
-                src={testimonial.avatar} 
-                alt={testimonial.name} 
-              />
-            )}
-            <TestimonialContent>
-              <TestimonialName>{testimonial.name}</TestimonialName>
-              <TestimonialRating>
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <FaStar key={i} color="#FFD700" />
-                ))}
-              </TestimonialRating>
-              <TestimonialText>{testimonial.comment}</TestimonialText>
-            </TestimonialContent>
-          </TestimonialCard>
+            {['Sites 100% personalizados', 'Otimização para dispositivos móveis', 'Suporte técnico especializado'].map((benefit, index) => (
+              <BenefitItem
+                key={index}
+                whileHover={{ scale: 1.05 }}
+              >
+                <FaCheckCircle color="#000" />
+                {benefit}
+              </BenefitItem>
+            ))}
+          </BenefitsList>
+        </HeroContent>
+        <HeroImage
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 100,
+            delay: 0.8
+          }}
+        >
+          <LogoContainer
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              type: "spring", 
+              stiffness: 100,
+              delay: 0.8
+            }}
+          >
+            <motion.img 
+              src="/logo.svg" 
+              alt="SiteForge - Desenvolvimento de Site Profissional" 
+              style={{ 
+                maxWidth: '300px', 
+                height: '300px', 
+                borderRadius: '100px',
+                objectFit: 'cover'
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            />
+          </LogoContainer>
+        </HeroImage>
+      </HeroSection>
+      
+      <ServicesSection>
+        {services.map((service, index) => (
+          <ServiceCard 
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: index * 0.2 
+            }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <ServiceIcon>
+              <service.icon />
+            </ServiceIcon>
+            <ServiceTitle>{service.title}</ServiceTitle>
+            <ServiceDescription>{service.description}</ServiceDescription>
+          </ServiceCard>
         ))}
-      </TestimonialsSection>
-    </HomeContainer>
+      </ServicesSection>
+    </HomeWrapper>
   )
 }
 

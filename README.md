@@ -1,63 +1,46 @@
-# AVX Marketing Website
+# SiteForge 
 
 ## Descrição
-Website institucional da AVX Marketing, desenvolvido com React, TypeScript e Vite.
+SiteForge é uma plataforma de desenvolvimento web que transforma sua presença digital com soluções personalizadas e de alta performance.
+
+## Tecnologias Utilizadas
+- React
+- TypeScript
+- Styled-Components
+- Framer Motion
+- Vite
 
 ## Pré-requisitos
-- Node.js (versão 16 ou superior)
+- Node.js (v18+)
 - npm ou yarn
 
 ## Instalação
-
 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/avx-marketing.git
-cd avx-marketing
+git clone https://github.com/seu-usuario/siteforge.git
 ```
 
 2. Instale as dependências
 ```bash
+cd siteforge
 npm install
-# ou
-yarn install
 ```
 
-## Rodando o Projeto
-
-### Desenvolvimento
+3. Inicie o servidor de desenvolvimento
 ```bash
 npm run dev
-# ou
-yarn dev
 ```
-Acesse `http://localhost:5173`
 
-### Build para Produção
+## Build para Produção
 ```bash
 npm run build
-# ou
-yarn build
 ```
 
-### Preview da Build
-```bash
-npm run preview
-# ou
-yarn preview
-```
+## Princípios de Design
+- Minimalismo
+- Transparência
+- Transições suaves
+- Responsividade
 
-## Deploy
-
-Opções de deploy:
-1. Netlify
-2. Vercel
-3. GitHub Pages
-4. Hospedagem tradicional
-
-### Configurações Recomendadas
-- Usar Node.js 16+
-- Comando de build: `npm run build`
-- Pasta de output: `dist`
-
-## Contato
-contato@avxmarketing.com.br
+## Licença
+Projeto desenvolvido por SiteForge Team. Todos os direitos reservados.

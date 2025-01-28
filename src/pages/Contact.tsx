@@ -1,354 +1,299 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { FaWhatsapp, FaEnvelope, FaMapMarkerAlt, FaPaperPlane, FaCheckCircle } from 'react-icons/fa'
-import InputMask from 'react-input-mask'
+import bgTexture from '../assets/bg-texture.png'
+import { FaWhatsapp } from 'react-icons/fa'
 
-const ContactContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: transparent;
-  color: #FFD700;
-  padding: 2rem;
+interface ContactProps {}
+
+const ContactWrapper = styled(motion.div)`
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 1rem 2rem;
   min-height: 100vh;
-`
-
-const ContactSection = styled(motion.section)`
   display: flex;
-  width: 100%;
-  max-width: 1200px;
-  background-color: transparent;
-  border-radius: 15px;
-  padding: 3rem;
-  gap: 2rem;
-  box-shadow: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    padding: 1rem;
+    padding: 80px 1rem 2rem;
   }
 `
 
-const ContactInfo = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`
+const ContactContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 
-const ContactMethod = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: rgba(255,236,0,0.8);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateX(10px);
-  }
-
-  svg {
-    font-size: 2rem;
-    color: rgba(255,215,0,0.8);
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    width: 95%;
+    margin: 0 auto;
   }
 `
 
 const ContactForm = styled.form`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  width: 100%;
 `
 
-const InputGroup = styled.div`
+const ContactTitle = styled.h1`
+  font-size: 2.2rem;
+  color: #6a11cb;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+`
+
+const ContactSubtitle = styled.p`
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+`
+
+const ContactInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: #6a11cb;
+  font-weight: 500;
+  background-color: rgba(106, 17, 203, 0.1);
+  padding: 1rem;
+  border-radius: 10px;
+`
+
+const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 `
 
 const Label = styled.label`
-  color: rgba(255,215,0,0.8);
-  font-weight: 600;
+  font-size: 0.9rem;
+  color: #6a11cb;
+  text-align: left;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `
 
-const Input = styled(motion.input)<{ $hasError?: boolean }>`
+const Input = styled.input`
   width: 100%;
   padding: 12px;
-  background-color: transparent;
-  border: 2px solid ${props => props.$hasError ? 'rgba(255,65,54,0.6)' : 'rgba(255,215,0,0.3)'};
+  border: 1px solid #6a11cb;
   border-radius: 8px;
-  color: rgba(255,255,255,0.9);
+  font-size: 1rem;
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: rgba(255,215,0,0.8);
-    box-shadow: none;
+    border-color: #4a148c;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 0.95rem;
   }
 `
 
-const TextArea = styled(Input).attrs({ as: 'textarea' })`
-  resize: vertical;
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #6a11cb;
+  border-radius: 8px;
+  font-size: 1rem;
   min-height: 120px;
+  resize: vertical;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #4a148c;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 0.95rem;
+    min-height: 100px;
+  }
 `
 
 const SubmitButton = styled(motion.button)`
-  background-color: rgba(255,215,0,0.8);
-  color: rgba(0,0,0,0.8);
+  width: 100%;
+  padding: 12px;
+  background-color: #6a11cb;
+  color: white;
   border: none;
-  padding: 15px;
   border-radius: 8px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.3s ease;
+  font-size: 1rem;
   cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: rgba(255,236,0,0.9);
+    background-color: #4a148c;
   }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 0.95rem;
   }
 `
 
-const ErrorMessage = styled.span`
-  color: rgba(255,65,54,0.8);
-  font-size: 0.8rem;
-  margin-top: -0.5rem;
+const ContactMethods = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 `
 
-const SuccessMessage = styled(motion.div)`
+const ContactMethodLink = styled.a`
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: rgba(46,204,64,0.8);
-  font-weight: bold;
-  margin-top: 1rem;
+  gap: 0.5rem;
+  color: #6a11cb;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    color: #4a148c;
+  }
 `
 
-const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  })
+const StatusMessage = styled.div`
+  color: #6a11cb;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+`
 
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  })
+const Contact: React.FC<ContactProps> = () => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
 
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value)
+  }
 
-  const validateForm = () => {
-    let valid = true
-    const newErrors = { name: '', email: '', phone: '', message: '' }
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value)
+  }
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'Nome é obrigatório'
-      valid = false
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'E-mail é obrigatório'
-      valid = false
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'E-mail inválido'
-      valid = false
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Telefone é obrigatório'
-      valid = false
-    } else if (!/\(\d{2}\)\s\d{4,5}-\d{4}/.test(formData.phone)) {
-      newErrors.phone = 'Telefone inválido'
-      valid = false
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Mensagem é obrigatória'
-      valid = false
-    }
-
-    setErrors(newErrors)
-    return valid
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value)
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateForm()) {
-      // Aqui você pode adicionar a lógica de envio do formulário
-      console.log('Formulário enviado:', formData)
-      setIsSubmitted(true)
-    }
-  }
+    
+    // Formata a mensagem para WhatsApp
+    const whatsappMessage = `Olá Joabe! 
+Meu nome é: ${name}
+Meu email é: ${email}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
-
-  const handleReset = () => {
-    setFormData({ name: '', email: '', phone: '', message: '' })
-    setErrors({ name: '', email: '', phone: '', message: '' })
-    setIsSubmitted(false)
+Mensagem:
+${message}`
+    
+    // Número de WhatsApp com DDD
+    const phoneNumber = '5527999159857'
+    
+    // Codifica a mensagem para URL
+    const encodedMessage = encodeURIComponent(whatsappMessage)
+    
+    // Link de WhatsApp
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
+    
+    // Abre o WhatsApp
+    window.open(whatsappLink, '_blank')
   }
 
   return (
-    <ContactContainer>
-      <ContactSection
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ContactInfo>
-          <ContactMethod>
-            <FaWhatsapp />
-            <div>
-              <strong>WhatsApp</strong>
-              <p>+55 (XX) XXXXX-XXXX</p>
-            </div>
-          </ContactMethod>
-          <ContactMethod>
-            <FaEnvelope />
-            <div>
-              <strong>E-mail</strong>
-              <p>contato@avxmarketing.com</p>
-            </div>
-          </ContactMethod>
-          <ContactMethod>
-            <FaMapMarkerAlt />
-            <div>
-              <strong>Localização</strong>
-              <p>Cidade, Estado - Brasil</p>
-            </div>
-          </ContactMethod>
-        </ContactInfo>
-
-        {!isSubmitted ? (
-          <ContactForm onSubmit={handleSubmit}>
-            <InputGroup>
-              <Label htmlFor="name">Nome</Label>
-              <Input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                $hasError={!!errors.name}
-                placeholder="Seu nome"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              />
-              {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
-            </InputGroup>
-
-            <InputGroup>
-              <Label htmlFor="email">E-mail</Label>
-              <Input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                $hasError={!!errors.email}
-                placeholder="Seu e-mail"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              />
-              {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
-            </InputGroup>
-
-            <InputGroup>
-              <Label htmlFor="phone">Telefone</Label>
-              <InputMask
-                mask="(99) 99999-9999"
-                maskChar=""
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-              >
-                {(inputProps: any) => (
-                  <Input
-                    {...inputProps}
-                    $hasError={!!errors.phone}
-                    placeholder="Seu telefone"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  />
-                )}
-              </InputMask>
-              {errors.phone && <ErrorMessage>{errors.phone}</ErrorMessage>}
-            </InputGroup>
-
-            <InputGroup>
-              <Label htmlFor="message">Mensagem</Label>
-              <TextArea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                $hasError={!!errors.message}
-                placeholder="Sua mensagem"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              />
-              {errors.message && <ErrorMessage>{errors.message}</ErrorMessage>}
-            </InputGroup>
-
-            <SubmitButton
-              type="submit"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+    <ContactWrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <ContactContainer>
+        <ContactForm onSubmit={handleSubmit}>
+          <ContactTitle>Vamos Conversar</ContactTitle>
+          <ContactSubtitle>
+            Tem um projeto em mente ou quer discutir uma ideia? 
+            Preencha o formulário abaixo e envie sua mensagem.
+          </ContactSubtitle>
+          
+          <ContactMethods>
+            <ContactMethodLink 
+              href={`https://wa.me/5527999159857`} 
+              target="_blank" 
+              rel="noopener noreferrer"
             >
-              <FaPaperPlane /> Enviar Mensagem
-            </SubmitButton>
-          </ContactForm>
-        ) : (
-          <SuccessMessage
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+              <FaWhatsapp /> WhatsApp
+            </ContactMethodLink>
+          </ContactMethods>
+
+          <ContactInfo>
+            <p> (27) 99915-9857</p>
+            <p> joabealves000@gmail.com</p>
+          </ContactInfo>
+          
+          <FormGroup>
+            <Label htmlFor="name">Nome</Label>
+            <Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={handleNameChange}
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="message">Mensagem</Label>
+            <TextArea
+              id="message"
+              value={message}
+              onChange={handleMessageChange}
+              required
+            />
+          </FormGroup>
+          <SubmitButton
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <FaCheckCircle />
-            Mensagem enviada com sucesso!
-            <motion.button
-              onClick={handleReset}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
-                marginLeft: '10px'
-              }}
-            >
-              Enviar outra
-            </motion.button>
-          </SuccessMessage>
-        )}
-      </ContactSection>
-    </ContactContainer>
+            Enviar Mensagem pelo WhatsApp
+          </SubmitButton>
+        </ContactForm>
+      </ContactContainer>
+    </ContactWrapper>
   )
 }
 
