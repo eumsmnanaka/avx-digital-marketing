@@ -27,12 +27,12 @@ const HeroSection = styled(motion.section)`
   align-items: center;
   justify-content: space-between;
   min-height: 100vh;
-  padding: 2rem 0;
+  padding: 4rem 0 2rem;
 
   @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 3rem 1rem 2rem;
   }
 `
 
@@ -53,6 +53,20 @@ const HeroContent = styled(motion.div)`
   }
 `
 
+const HeroImage = styled(motion.div)`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-width: 300px;
+    margin-top: 2rem;
+  }
+`
+
 const MainTitle = styled(motion.h1)`
   font-size: 4rem;
   font-weight: 700;
@@ -68,12 +82,30 @@ const MainTitle = styled(motion.h1)`
   }
 `
 
+const MainSubtitle = styled(motion.p)`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(106, 17, 203, 0.8);
+  line-height: 1.6;
+  max-width: 600px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+    max-width: 90%;
+    padding: 0 15px;
+  }
+`
+
 const Subtitle = styled(motion.p)`
   font-size: 1.5rem;
   color: ${props => props.theme.colors.text};
-  text-align: center;
   max-width: 700px;
   margin: 0 auto;
+  text-align: center;
   line-height: 1.6;
 
   @media (max-width: 768px) {
@@ -89,6 +121,56 @@ const ButtonGroup = styled(motion.div)`
 `
 
 const PrimaryButton = styled(motion.a)`
+  color: ${props => props.theme.colors.text};
+  border: 2px solid ${props => props.theme.colors.primary};
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: ${props => props.theme.colors.primary};
+    color: white;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(106, 17, 203, 0.2), transparent);
+    transition: all 0.5s ease;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(106, 17, 203, 0.1), transparent);
+    transition: all 0.5s ease;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+`
+
+const SecondaryButton = styled(motion.a)`
   color: ${props => props.theme.colors.text};
   border: 2px solid ${props => props.theme.colors.primary};
   padding: 10px 22px;
@@ -159,25 +241,6 @@ const BenefitItem = styled(motion.div)`
   }
 `
 
-const HeroImage = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  
-  @media (max-width: 768px) {
-    margin-top: 2rem;
-  }
-`
-
-const LogoContainer = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  position: relative;
-`
-
 const ServicesSection = styled(motion.section)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -227,6 +290,51 @@ const ServiceDescription = styled(motion.p)`
   font-size: 0.9rem;
 `
 
+const PromotionalBanner = styled(motion.button)`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(106, 17, 203, 0.15);
+  color: #6a11cb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(106, 17, 203, 0.25);
+  box-shadow: 0 3px 5px rgba(106, 17, 203, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background-color: rgba(106, 17, 203, 0.25);
+    transform: scale(1.03);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @media (max-width: 768px) {
+    bottom: 15px;
+    right: 15px;
+    font-size: 0.7rem;
+    padding: 6px 10px;
+  }
+`
+
+const PromotionalIcon = styled(motion.div)`
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  color: #6a11cb;
+`
+
 const Home: React.FC = () => {
   const navigate = useNavigate()
 
@@ -264,6 +372,26 @@ const Home: React.FC = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
+      <PromotionalBanner
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 1 }}
+        onClick={handleServicesClick}
+      >
+        <PromotionalIcon
+          initial={{ rotate: 0 }}
+          animate={{ rotate: [0, 15, -15, 0] }}
+          transition={{ 
+            duration: 1, 
+            repeat: Infinity,
+            repeatDelay: 2
+          }}
+        >
+          <FaRocket />
+        </PromotionalIcon>
+        3 Semanas Grátis!
+      </PromotionalBanner>
+
       <HeroSection>
         <HeroContent>
           <MainTitle
@@ -279,8 +407,9 @@ const Home: React.FC = () => {
           <Subtitle
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.5,
+            transition={{ 
+              type: "spring", 
+              stiffness: 100,
               delay: 0.4
             }}
           >
@@ -320,28 +449,18 @@ const Home: React.FC = () => {
             delay: 0.8
           }}
         >
-          <LogoContainer
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 100,
-              delay: 0.8
+          <motion.img 
+            src="/logo.svg" 
+            alt="SiteForge - Desenvolvimento de Site Profissional" 
+            style={{ 
+              maxWidth: '300px', 
+              height: '300px', 
+              borderRadius: '100px',
+              objectFit: 'cover'
             }}
-          >
-            <motion.img 
-              src="/logo.svg" 
-              alt="SiteForge - Desenvolvimento de Site Profissional" 
-              style={{ 
-                maxWidth: '300px', 
-                height: '300px', 
-                borderRadius: '100px',
-                objectFit: 'cover'
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            />
-          </LogoContainer>
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          />
         </HeroImage>
       </HeroSection>
       
@@ -355,7 +474,6 @@ const Home: React.FC = () => {
               duration: 0.5, 
               delay: index * 0.2 
             }}
-            whileHover={{ scale: 1.05 }}
           >
             <ServiceIcon>
               <service.icon />

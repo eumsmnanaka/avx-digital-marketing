@@ -1,13 +1,20 @@
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import React, { Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { theme, GlobalStyles } from './styles/Theme'
+import { ThemeProvider } from 'styled-components'
+import { AnimatePresence } from 'framer-motion'
+
+// Importações de páginas
 import Home from './pages/Home'
 import Services from './pages/Services'
-import Contact from './pages/Contact'
 import About from './pages/About'
+import Contact from './pages/Contact'
+
+// Componentes
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+
+// Estilos e temas
+import { theme, GlobalStyles } from './styles/Theme'
 import styled from 'styled-components'
 
 const AppContainer = styled.div`
@@ -30,12 +37,16 @@ const App: React.FC = () => {
         <AppContainer>
           <Navbar />
           <Content>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/servicos" element={<Services />} />
-              <Route path="/sobre" element={<About />} />
-              <Route path="/contato" element={<Contact />} />
-            </Routes>
+            <Suspense fallback={<div>Carregando...</div>}>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/servicos" element={<Services />} />
+                  <Route path="/sobre" element={<About />} />
+                  <Route path="/contato" element={<Contact />} />
+                </Routes>
+              </AnimatePresence>
+            </Suspense>
           </Content>
           <Footer />
         </AppContainer>

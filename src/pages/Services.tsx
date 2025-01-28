@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import bgTexture from '../assets/bg-texture.png'
-import { FaCode, FaMobileAlt, FaRocket } from 'react-icons/fa'
+import { FaCode, FaMobileAlt, FaRocket, FaCheckCircle } from 'react-icons/fa'
 
 const ServicesWrapper = styled(motion.section)`
   max-width: 1400px;
@@ -43,14 +43,38 @@ const ServicesGrid = styled(motion.div)`
 
 const ServiceCard = styled(motion.div)`
   background-color: ${props => props.theme.colors.background};
-  border-radius: 15px;
   border: 2px solid #6a11cb;
+  border-radius: 15px;
   padding: 2rem;
   text-align: center;
   width: 100%;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  ${props => props.highlight && `
+    &::before {
+      content: 'MAIS POPULAR';
+      position: absolute;
+      top: 15px;
+      right: -30px;
+      background-color: #ffd700;
+      color: #4a148c;
+      padding: 5px 30px;
+      transform: rotate(45deg);
+      font-size: 0.7rem;
+      font-weight: bold;
+      z-index: 10;
+    }
+  `}
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(106, 17, 203, 0.1);
+  }
 `
 
 const ServiceIcon = styled.div`
@@ -108,6 +132,25 @@ const ServicePrice = styled.div`
   }
 `
 
+const ServiceFeatures = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+const ServiceFeatureItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: ${props => props.theme.colors.text};
+  opacity: 0.8;
+`
+
 const ServiceButton = styled.button`
   background: linear-gradient(135deg, #6a11cb 0%, #4a148c 100%);
   color: white;
@@ -121,73 +164,104 @@ const ServiceButton = styled.button`
   cursor: pointer;
 `
 
+const services = [
+  {
+    icon: FaRocket,
+    title: 'Teste Grátis <small>(3 semanas)</small>',
+    description: 'Transforme sua presença online sem custo! Inclui:\n• Landing Page personalizada\n• Design 100% responsivo\n• Suporte inicial\n• Sem compromisso de contratação',
+    price: 'R$ 0',
+    features: [
+      'Landing Page Exclusiva',
+      'Design Responsivo',
+      'Configuração Básica',
+      'Sem Custo'
+    ],
+    highlight: true
+  },
+  {
+    icon: FaCode,
+    title: 'Básico',
+    description: 'Ideal para pequenos negócios que buscam uma presença digital profissional',
+    price: 'R$ 35',
+    features: [
+      'Site Institucional',
+      'Otimização SEO Básica',
+      'Suporte por E-mail',
+      '1 Página Personalizada'
+    ]
+  },
+  {
+    icon: FaMobileAlt,
+    title: 'Intermediário',
+    description: 'Solução completa para empresas que precisam de uma presença online robusta',
+    price: 'R$ 65',
+    features: [
+      'Site Completo',
+      'Design Personalizado',
+      'SEO Avançado',
+      'Integração Social'
+    ]
+  },
+  {
+    icon: FaRocket,
+    title: 'Avançado',
+    description: 'Pacote premium para empresas que buscam dominância digital',
+    price: 'R$ 120',
+    features: [
+      'Site Empresarial',
+      'Design Premium',
+      'Marketing Digital',
+      'Suporte 24/7'
+    ]
+  }
+]
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2
+    }
+  }
+}
+
+const cardVariants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.9,
+    y: 50 
+  },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      type: 'spring',
+      stiffness: 120
+    }
+  },
+  hover: {
+    scale: 1.05,
+    rotate: 2,
+    boxShadow: '0 10px 20px rgba(106, 17, 203, 0.2)',
+    transition: {
+      duration: 0.1,
+      type: 'spring',
+      stiffness: 500
+    }
+  }
+}
+
+const handleContractClick = (title: string) => {
+  const whatsappMessage = `Olá, tenho interesse no plano ${title}. Gostaria de mais informações.`
+  const whatsappUrl = `https://wa.me/5527999159857?text=${encodeURIComponent(whatsappMessage)}`
+  window.open(whatsappUrl, '_blank')
+}
+
 const Services: React.FC = () => {
-  const services = [
-    {
-      icon: FaCode,
-      title: 'Básico',
-      description: 'Landing Page, Design Responsivo, Otimização SEO Básica, Suporte por Email',
-      price: 'R$ 35'
-    },
-    {
-      icon: FaMobileAlt,
-      title: 'Intermediário',
-      description: 'Site Completo, Design Personalizado, Otimização SEO Avançada, Integração de Redes Sociais, Suporte Prioritário',
-      price: 'R$ 65'
-    },
-    {
-      icon: FaRocket,
-      title: 'Avançado',
-      description: 'Site Empresarial Completo, Design Premium, SEO Especializado, E-commerce, Marketing Digital, Suporte Dedicado 24/7',
-      price: 'R$ 120'
-    }
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  }
-
-  const cardVariants = {
-    hidden: { 
-      opacity: 0, 
-      scale: 0.9,
-      y: 50 
-    },
-    visible: { 
-      opacity: 1, 
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        type: 'spring',
-        stiffness: 120
-      }
-    },
-    hover: {
-      scale: 1.05,
-      rotate: 2,
-      boxShadow: '0 10px 20px rgba(106, 17, 203, 0.2)',
-      transition: {
-        duration: 0.1,
-        type: 'spring',
-        stiffness: 500
-      }
-    }
-  }
-
-  const handleContractClick = (title: string) => {
-    const whatsappMessage = `Olá, tenho interesse no plano ${title}. Gostaria de mais informações.`
-    const whatsappUrl = `https://wa.me/5527999159857?text=${encodeURIComponent(whatsappMessage)}`
-    window.open(whatsappUrl, '_blank')
-  }
-
   return (
     <ServicesWrapper
       initial={{ opacity: 0 }}
@@ -202,27 +276,37 @@ const Services: React.FC = () => {
       >
         Nossos Serviços
       </motion.h1>
-      
+
       <ServicesGrid
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {services.map((service, index) => (
-          <ServiceCard
+          <ServiceCard 
             key={index}
             variants={cardVariants}
             whileHover="hover"
+            highlight={service.highlight}
+            onClick={() => handleContractClick(service.title)}
           >
             <ServiceIcon>
               <service.icon />
             </ServiceIcon>
-            <ServiceTitle>{service.title}</ServiceTitle>
+            <ServiceTitle dangerouslySetInnerHTML={{ __html: service.title }} />
             <ServiceDescription>{service.description}</ServiceDescription>
             <ServicePrice>{service.price}</ServicePrice>
-            <ServiceButton onClick={() => handleContractClick(service.title)}>
-              Contratar
-            </ServiceButton>
+            {service.features && (
+              <ServiceFeatures>
+                {service.features.map((feature, idx) => (
+                  <ServiceFeatureItem key={idx}>
+                    <FaCheckCircle color="#6a11cb" />
+                    {feature}
+                  </ServiceFeatureItem>
+                ))}
+              </ServiceFeatures>
+            )}
+            <ServiceButton>Contratar</ServiceButton>
           </ServiceCard>
         ))}
       </ServicesGrid>
