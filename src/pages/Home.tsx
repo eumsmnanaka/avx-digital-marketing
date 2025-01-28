@@ -9,6 +9,7 @@ import {
   FaCheckCircle
 } from 'react-icons/fa'
 import bgTexture from '../assets/bg-texture.png'
+import { useNavigate } from 'react-router-dom'
 
 const HomeWrapper = styled(motion.div)`
   max-width: 1400px;
@@ -227,6 +228,12 @@ const ServiceDescription = styled(motion.p)`
 `
 
 const Home: React.FC = () => {
+  const navigate = useNavigate()
+
+  const handleServicesClick = () => {
+    navigate('/servicos')
+  }
+
   const services = [
     {
       icon: FaCode,
@@ -255,7 +262,7 @@ const Home: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.5 }}
     >
       <HeroSection>
         <HeroContent>
@@ -280,11 +287,8 @@ const Home: React.FC = () => {
             Forjando sua presença digital com soluções web personalizadas e de alta performance
           </Subtitle>
           <ButtonGroup>
-            <PrimaryButton 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Nossos Serviços
+            <PrimaryButton onClick={handleServicesClick}>
+              NOSSOS SERVIÇOS
             </PrimaryButton>
           </ButtonGroup>
           <BenefitsList

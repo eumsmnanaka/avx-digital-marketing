@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { motion } from 'framer-motion'
 import bgTexture from '../assets/bg-texture.png'
 import { FaCode, FaMobileAlt, FaRocket } from 'react-icons/fa'
 
-const ServicesWrapper = styled.section`
+const ServicesWrapper = styled(motion.section)`
   max-width: 1400px;
   margin: 0 auto;
   padding: 80px 1rem 2rem;
@@ -21,7 +22,7 @@ const ServicesWrapper = styled.section`
   }
 `
 
-const ServicesGrid = styled.div`
+const ServicesGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
@@ -40,7 +41,7 @@ const ServicesGrid = styled.div`
   }
 `
 
-const ServiceCard = styled.div`
+const ServiceCard = styled(motion.div)`
   background-color: ${props => props.theme.colors.background};
   border-radius: 15px;
   border: 2px solid #6a11cb;
@@ -49,15 +50,7 @@ const ServiceCard = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-    width: 100%;
-    margin: 0 auto;
-  }
+  cursor: pointer;
 `
 
 const ServiceIcon = styled.div`
@@ -150,6 +143,45 @@ const Services: React.FC = () => {
     }
   ]
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const cardVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.9,
+      y: 50 
+    },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        type: 'spring',
+        stiffness: 120
+      }
+    },
+    hover: {
+      scale: 1.05,
+      rotate: 2,
+      boxShadow: '0 10px 20px rgba(106, 17, 203, 0.2)',
+      transition: {
+        duration: 0.1,
+        type: 'spring',
+        stiffness: 500
+      }
+    }
+  }
+
   const handleContractClick = (title: string) => {
     const whatsappMessage = `Olá, tenho interesse no plano ${title}. Gostaria de mais informações.`
     const whatsappUrl = `https://wa.me/5527999159857?text=${encodeURIComponent(whatsappMessage)}`
@@ -157,11 +189,31 @@ const Services: React.FC = () => {
   }
 
   return (
-    <ServicesWrapper>
-      <h1>Nossos Serviços</h1>
-      <ServicesGrid>
+    <ServicesWrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.h1
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        Nossos Serviços
+      </motion.h1>
+      
+      <ServicesGrid
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {services.map((service, index) => (
-          <ServiceCard key={index}>
+          <ServiceCard
+            key={index}
+            variants={cardVariants}
+            whileHover="hover"
+          >
             <ServiceIcon>
               <service.icon />
             </ServiceIcon>

@@ -21,7 +21,7 @@ const ContactWrapper = styled(motion.div)`
   }
 `
 
-const ContactContainer = styled.div`
+const ContactContainer = styled(motion.div)`
   width: 100%;
   max-width: 600px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -184,22 +184,52 @@ const StatusMessage = styled.div`
   font-weight: 500;
 `
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { 
+    opacity: 0, 
+    scale: 0.9,
+    y: 50 
+  },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      type: 'spring',
+      stiffness: 120
+    }
+  }
+}
+
+const hoverVariants = {
+  hover: {
+    scale: 1.05,
+    rotate: 1,
+    boxShadow: '0 10px 20px rgba(106, 17, 203, 0.2)',
+    transition: {
+      duration: 0.1,
+      type: 'spring',
+      stiffness: 500
+    }
+  }
+}
+
 const Contact: React.FC<ContactProps> = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-  }
-
-  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value)
-  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -232,65 +262,97 @@ ${message}`
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <ContactContainer>
-        <ContactForm onSubmit={handleSubmit}>
+      <ContactContainer
+        as={motion.div}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <ContactTitle>Vamos Conversar</ContactTitle>
-          <ContactSubtitle>
-            Tem um projeto em mente ou quer discutir uma ideia? 
-            Preencha o formulário abaixo e envie sua mensagem.
-          </ContactSubtitle>
-          
-          <ContactMethods>
-            <ContactMethodLink 
-              href={`https://wa.me/5527999159857`} 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <FaWhatsapp /> WhatsApp
-            </ContactMethodLink>
-          </ContactMethods>
+        </motion.div>
 
-          <ContactInfo>
-            <p> (27) 99915-9857</p>
-            <p> joabealves000@gmail.com</p>
-          </ContactInfo>
-          
-          <FormGroup>
-            <Label htmlFor="name">Nome</Label>
-            <Input
-              type="text"
-              id="name"
-              value={name}
-              onChange={handleNameChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-              required
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="message">Mensagem</Label>
-            <TextArea
-              id="message"
-              value={message}
-              onChange={handleMessageChange}
-              required
-            />
-          </FormGroup>
-          <SubmitButton
-            type="submit"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        <ContactSubtitle>
+          Tem um projeto em mente ou quer discutir uma ideia? 
+          Preencha o formulário abaixo e envie sua mensagem.
+        </ContactSubtitle>
+
+        <ContactMethods>
+          <ContactMethodLink 
+            as={motion.a}
+            href={`https://wa.me/5527999159857`} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            whileHover={hoverVariants.hover}
           >
-            Enviar Mensagem pelo WhatsApp
-          </SubmitButton>
+            <FaWhatsapp /> WhatsApp
+          </ContactMethodLink>
+        </ContactMethods>
+
+        <ContactInfo>
+          <p> (27) 99915-9857</p>
+          <p> joabealves000@gmail.com</p>
+        </ContactInfo>
+
+        <ContactForm onSubmit={handleSubmit}>
+          <motion.div variants={itemVariants}>
+            <FormGroup>
+              <Label htmlFor="name">Nome</Label>
+              <Input
+                as={motion.input}
+                whileHover={hoverVariants.hover}
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </FormGroup>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <FormGroup>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                as={motion.input}
+                whileHover={hoverVariants.hover}
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </FormGroup>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <FormGroup>
+              <Label htmlFor="message">Mensagem</Label>
+              <TextArea
+                as={motion.textarea}
+                whileHover={hoverVariants.hover}
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+              />
+            </FormGroup>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <SubmitButton 
+              as={motion.button}
+              type="submit"
+              whileHover={hoverVariants.hover}
+              whileTap={{ scale: 0.95 }}
+            >
+              Enviar Mensagem
+            </SubmitButton>
+          </motion.div>
         </ContactForm>
       </ContactContainer>
     </ContactWrapper>

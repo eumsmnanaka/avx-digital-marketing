@@ -202,6 +202,48 @@ const CopyrightNotice = styled.div`
 `
 
 const About: React.FC<AboutProps> = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.9,
+      y: 50 
+    },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        type: 'spring',
+        stiffness: 120
+      }
+    }
+  }
+
+  const imageVariants = {
+    hover: {
+      scale: 1.1,
+      rotate: 2,
+      boxShadow: '0 15px 30px rgba(106, 17, 203, 0.2)',
+      transition: {
+        duration: 0.1,
+        type: 'spring',
+        stiffness: 500
+      }
+    }
+  }
+
   return (
     <AboutWrapper
       initial={{ opacity: 0 }}
@@ -209,26 +251,53 @@ const About: React.FC<AboutProps> = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <AboutSection>
-        <AboutImage>
-          <img src={profileImage} alt="Joabe Alves" />
-        </AboutImage>
-        <AboutContent>
-          <AboutTitle>Sobre Mim</AboutTitle>
-          <AboutSubtitle>Desenvolvedor apaixonado por tecnologia</AboutSubtitle>
-          <AboutDescription>
-            Olá! Sou Joabe Alves, desenvolvedor apaixonado por tecnologia. 
-            Transformo ideias em soluções digitais criativas e funcionais.
-          </AboutDescription>
-          <AboutDescription>
-            Especializado em desenvolvimento web, busco constantemente 
-            aprimorar minhas habilidades em tecnologias modernas como 
-            React, TypeScript e outras ferramentas de ponta.
-          </AboutDescription>
-          <CopyrightNotice>
-            2025 Todos os direitos reservados a Joabe Alves
-          </CopyrightNotice>
-        </AboutContent>
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <AboutTitle>Sobre Nós</AboutTitle>
+      </motion.div>
+
+      <AboutSection
+        as={motion.div}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div 
+          variants={itemVariants}
+          style={{ flex: 1 }}
+        >
+          <AboutImage>
+            <motion.img 
+              src={profileImage} 
+              alt="Joabe Alves" 
+              whileHover={imageVariants.hover}
+            />
+          </AboutImage>
+        </motion.div>
+        
+        <motion.div 
+          variants={itemVariants}
+          style={{ flex: 1 }}
+        >
+          <AboutContent>
+            <AboutSubtitle>Desenvolvedor apaixonado por tecnologia</AboutSubtitle>
+            <AboutDescription>
+              Olá! Sou Joabe Alves, desenvolvedor apaixonado por tecnologia. 
+              Transformo ideias em soluções digitais criativas e funcionais.
+            </AboutDescription>
+            <AboutDescription>
+              Especializado em desenvolvimento web, busco constantemente 
+              aprimorar minhas habilidades em tecnologias modernas como 
+              React, TypeScript e outras ferramentas de ponta.
+            </AboutDescription>
+            <CopyrightNotice>
+              2025 Todos os direitos reservados a Joabe Alves
+            </CopyrightNotice>
+          </AboutContent>
+        </motion.div>
       </AboutSection>
     </AboutWrapper>
   )
