@@ -8,7 +8,7 @@ const HeaderContainer = styled.header`
   color: #FFD700;
   padding: 20px 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   position: fixed;
   width: 100%;
@@ -16,53 +16,41 @@ const HeaderContainer = styled.header`
   z-index: 1000;
 `
 
-const Logo = styled(Link)`
+const MobileMenuIcon = styled.div`
+  cursor: pointer;
   font-size: 1.5rem;
-  font-weight: bold;
   color: #FFD700;
 `
 
 const Navigation = styled.nav<{ isOpen: boolean }>`
-  display: flex;
-  align-items: center;
-
   @media (max-width: 768px) {
+    display: ${props => props.isOpen ? 'flex' : 'none'};
     flex-direction: column;
     position: fixed;
     top: 0;
-    right: ${props => props.isOpen ? '0' : '-100%'};
-    width: 250px;
-    height: 100vh;
-    background-color: #000000;
-    padding: 100px 20px;
-    transition: right 0.3s ease;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 1000;
+    padding-top: 60px;
+    align-items: center;
   }
 `
 
 const NavLinks = styled(Link)`
   color: #FFD700;
-  margin: 0 15px;
   text-decoration: none;
+  margin: 10px 0;
+  font-size: 1.2rem;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #FFEC00;
+    color: #FFFFFF;
   }
 
-  @media (max-width: 768px) {
-    margin: 15px 0;
-    font-size: 1.2rem;
-  }
-`
-
-const MobileMenuIcon = styled.div`
-  display: none;
-  color: #FFD700;
-  font-size: 1.5rem;
-  cursor: pointer;
-
-  @media (max-width: 768px) {
-    display: block;
+  @media (min-width: 769px) {
+    display: none;
   }
 `
 
@@ -75,8 +63,6 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <Logo to="/">AVX Marketing</Logo>
-      
       <MobileMenuIcon onClick={toggleMenu}>
         {isOpen ? <FaTimes /> : <FaBars />}
       </MobileMenuIcon>

@@ -24,8 +24,8 @@ ReactDOM.createRoot(rootElement).render(
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Router>
-        <Logo />
         <Navbar />
+        <Logo />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contato" element={<Contact />} />

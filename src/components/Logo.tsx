@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
+import { isMobile, isTablet } from 'react-device-detect'
 
-const LogoContainer = styled(motion.div)`
-  position: fixed;
-  top: 10px;
-  left: 20px;
+const LogoContainer = styled(motion.div)<{ $isMobile: boolean }>`
+  position: ${props => props.$isMobile ? 'static' : 'fixed'};
+  top: ${props => props.$isMobile ? 'auto' : '10px'};
+  left: ${props => props.$isMobile ? 'auto' : '50%'};
+  transform: ${props => props.$isMobile ? 'none' : 'translateX(-50%)'};
   z-index: 1100;
-  display: flex;
+  display: ${props => props.$isMobile ? 'none' : 'flex'};
   align-items: center;
 `
 
@@ -25,24 +27,22 @@ const LogoText = styled.div`
 `
 
 const LogoSubtitle = styled.div`
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.55rem;
-  font-weight: 500;
-  color: rgba(255,236,0,0.7);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-left: 8px;
-  transform: translateY(6px);
-  border-bottom: 1px solid rgba(255,236,0,0.3);
-  padding-bottom: 2px;
+  font-size: 0.8rem;
+  color: #FFD700;
+  opacity: 0.7;
+  margin-left: 5px;
+  text-transform: lowercase;
 `
 
 const Logo: React.FC = () => {
+  const deviceIsMobile = isMobile || isTablet
+
   return (
-    <LogoContainer
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, type: 'spring' }}
+    <LogoContainer 
+      $isMobile={deviceIsMobile}
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <LogoText>AVX</LogoText>
       <LogoSubtitle>Marketing</LogoSubtitle>

@@ -79,7 +79,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   #root {
-    padding-top: ${isMobile || isTablet ? '40px' : '80px'};
+    width: 100%;
     position: relative;
     z-index: 1;
     transform-style: preserve-3d;
@@ -96,13 +96,12 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   button {
-    font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     background-color: #FFD700;
     color: #000000;
     border: none;
-    padding: 15px 30px;
+    padding: 10px 20px;
     font-size: 1.2rem;
 
     &:hover {
@@ -111,16 +110,29 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
     margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
-  input, textarea, select {
-    font-family: 'Montserrat', sans-serif;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 0.5rem;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  input, textarea {
     width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #FFD700;
+    background-color: rgba(0,0,0,0.7);
+    color: #FFD700;
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
   }
 
   /* Scrollbar Styling */
@@ -129,27 +141,20 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(255,215,0,0.1);
+    background: rgba(0,0,0,0.5);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255,215,0,0.5);
+    background: #FFD700;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,215,0,0.7);
+    background: #FFEC00;
   }
 
-  /* Touch Optimization for Mobile */
-  ${isMobile || isTablet ? `
-    * {
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-
-    input, textarea, button, select {
-      font-size: 16px; /* Prevent auto zoom on iOS */
-    }
-  ` : ''}
+  /* Remove tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
 `
