@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import bgTexture from '../assets/bg-texture.png'
 import profileImage from '../assets/joabe-profile.jpg'
 
 interface AboutProps {}
 
-const AboutWrapper = styled(motion.div)`
+const AboutWrapper = styled(motion.div)<{ variants?: Variants }>`
   max-width: 1200px;
   margin: 0 auto;
   padding: 80px 1rem 2rem;
@@ -24,7 +24,7 @@ const AboutWrapper = styled(motion.div)`
   }
 `
 
-const AboutContainer = styled.div`
+const AboutContainer = styled(motion.div)<{ variants?: Variants }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -220,62 +220,44 @@ const CopyrightNotice = styled.div`
   }
 `
 
-const pageVariants = {
-  initial: { 
-    opacity: 0, 
-    x: '-100vw' 
-  },
-  in: { 
-    opacity: 1, 
-    x: 0,
-    transition: {
-      duration: 0.7,
-      type: 'spring',
-      stiffness: 50,
-      when: 'beforeChildren',
-      staggerChildren: 0.3
-    }
-  },
-  out: { 
-    opacity: 0, 
-    x: '100vw',
-    transition: {
-      duration: 0.5
-    }
-  }
-}
-
-const sectionVariants = {
-  initial: { 
-    opacity: 0, 
-    scale: 0.9 
-  },
+const pageVariants: Variants = {
+  initial: { opacity: 0, scale: 0.9 },
   in: { 
     opacity: 1, 
     scale: 1,
-    transition: {
-      duration: 0.6,
-      type: 'spring',
-      stiffness: 80
-    }
+    transition: { 
+      duration: 0.6, 
+      type: 'spring', 
+      stiffness: 100 
+    } 
+  },
+  out: { opacity: 0, scale: 0.9 }
+}
+
+const sectionVariants: Variants = {
+  initial: { opacity: 0, y: 50 },
+  in: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.6, 
+      type: 'spring', 
+      stiffness: 100 
+    } 
   }
 }
 
-const imageVariants = {
-  initial: { 
-    opacity: 0, 
-    rotate: -10,
-    scale: 0.8 
-  },
+const imageVariants: Variants = {
+  initial: { opacity: 0, rotate: -10, scale: 0.8 },
   in: { 
     opacity: 1, 
     rotate: 0,
     scale: 1,
-    transition: {
-      duration: 0.7,
-      type: 'spring',
-      stiffness: 60
-    }
+    transition: { 
+      duration: 0.7, 
+      type: 'spring', 
+      stiffness: 60 
+    } 
   },
   hover: {
     scale: 1.1,
@@ -286,21 +268,17 @@ const imageVariants = {
   }
 }
 
-const itemVariants = {
-  hidden: { 
-    opacity: 0, 
-    scale: 0.9,
-    y: 50 
-  },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.9, y: 50 },
   visible: { 
     opacity: 1, 
     scale: 1,
     y: 0,
-    transition: {
-      duration: 0.5,
-      type: 'spring',
-      stiffness: 120
-    }
+    transition: { 
+      duration: 0.5, 
+      type: 'spring', 
+      stiffness: 120 
+    } 
   }
 }
 
@@ -313,6 +291,8 @@ const About: React.FC<AboutProps> = () => {
       variants={pageVariants}
     >
       <AboutContainer
+        initial="initial"
+        animate="in"
         variants={sectionVariants}
       >
         <motion.h1

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import bgTexture from '../assets/bg-texture.png'
 import { FaCode, FaMobileAlt, FaRocket, FaCheckCircle } from 'react-icons/fa'
 
@@ -41,7 +41,7 @@ const ServicesGrid = styled(motion.div)`
   }
 `
 
-const ServiceCard = styled(motion.div)`
+const ServiceCard = styled(motion.div)<{ highlight?: boolean }>`
   background-color: ${props => props.theme.colors.background};
   border: 2px solid #6a11cb;
   border-radius: 15px;
@@ -227,7 +227,7 @@ const containerVariants = {
   }
 }
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: { 
     opacity: 0, 
     scale: 0.9,
@@ -237,21 +237,15 @@ const cardVariants = {
     opacity: 1, 
     scale: 1,
     y: 0,
-    transition: {
-      duration: 0.5,
-      type: 'spring',
-      stiffness: 120
-    }
+    transition: { 
+      duration: 0.5, 
+      type: 'spring', 
+      stiffness: 120 
+    } 
   },
   hover: {
     scale: 1.05,
-    rotate: 2,
-    boxShadow: '0 10px 20px rgba(106, 17, 203, 0.2)',
-    transition: {
-      duration: 0.1,
-      type: 'spring',
-      stiffness: 500
-    }
+    transition: { duration: 0.2 }
   }
 }
 
@@ -285,6 +279,8 @@ const Services: React.FC = () => {
         {services.map((service, index) => (
           <ServiceCard 
             key={index}
+            initial="hidden"
+            animate="visible"
             variants={cardVariants}
             whileHover="hover"
             highlight={service.highlight}
